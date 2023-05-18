@@ -3,6 +3,9 @@ const express = require('express')
 const app = express()
 
 
+const users = require('./routes/users')
+app.use("/api/v1", users)
+
 app.get('/', (req, res)=>{
     const data = { message:"Express Server Running Successfully!"}
     res.status(200).json(data)
