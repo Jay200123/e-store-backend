@@ -68,7 +68,7 @@ exports.updateUsers = asyncHandler(async(req, res)=>{
 exports.deleteUser = asyncHandler(async(req, res)=>{
 
     const { id } = req.params
-    const users = User.findByIdAndDelete(id)
+    const users = await User.findByIdAndDelete(id)
 
     if(!users){
         res.status(500).json({ message:"Error cant remove the data"})
