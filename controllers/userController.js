@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
+const sendToken = require('../utils/jwtToken')
 
 exports.allUsers = asyncHandler(async(req, res)=>{
 
@@ -16,19 +17,18 @@ exports.allUsers = asyncHandler(async(req, res)=>{
     })
 })
 
-exports.storeUsers = asyncHandler(async(req, res)=>{
 
-    const users = await User.create(req.body)
+exports.storeUsers = asyncHandler(async (req, res) => {
+  const users = await User.create(req.body);
 
-    if(!users){
-        res.status(500).json({message: "Error Field Required"})
-    }
+  if (!users) {
+    return res.status(500).json({ message: "Error Field Required" });
+  }
 
-    res.status(200).json({
-        success:true,
-        users
-    })
-})
+  sendToken(users, 200, res);
+  
+});
+
 
 exports.getOneUser = asyncHandler(async(req, res)=>{
 
