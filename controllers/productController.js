@@ -44,3 +44,18 @@ exports.getOneProducts = asyncHandler(async(req, res)=>{
         product
     })
 })
+
+exports.updateProducts = asyncHandler(async(req, res)=>{
+
+    const { id } = req.params
+
+    const product = await Product.findByIdAndUpdate(id, req.body)
+
+    if(!product){
+        res.status(500).json({ message: "Error cant update product data"})
+    }
+    res.status(200).json({
+        sucess:true,
+        product
+    })
+})
