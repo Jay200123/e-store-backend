@@ -29,3 +29,18 @@ exports.storeProducts = asyncHandler(async(req, res)=>{
         product
     })
 })
+
+exports.getOneProducts = asyncHandler(async(req, res)=>{
+
+    const { id } = req.params
+    const product = await Product.findById(id)
+
+    if(!product){
+        res.status(404).json({ message: "Error cant find product"})
+    }
+
+    res.status(200).json({
+        sucess:true,
+        product
+    })
+})
