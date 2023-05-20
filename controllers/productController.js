@@ -59,3 +59,19 @@ exports.updateProducts = asyncHandler(async(req, res)=>{
         product
     })
 })
+
+exports.deleteProducts = asyncHandler(async(req, res)=>{
+
+    const { id } = req.params
+    
+    const product = await Product.findByIdAndDelete(id)
+
+    if(!product){
+
+        res.status(500).json({ message: "Error cant remove product"})
+    }
+    res.status(200).json({
+        sucess:true,
+        product
+    })
+})
