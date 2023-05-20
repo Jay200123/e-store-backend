@@ -41,7 +41,7 @@ const productSchema = mongoose.Schema({
 
         required:[true, 'Stock Field Required'],
 
-        maxLength:[5, 'Stock must not exceed to 5 characters']
+        maxLength:[10, 'Stock must not exceed to 10 characters']
     },
 
     seller:{
@@ -50,7 +50,13 @@ const productSchema = mongoose.Schema({
         required:[true,'Seller Field Required'],
 
         maxLength:[30, 'Seller Name must not exceed to 30 characters']
+    },
+
+    createdAt:{
+        type:Date,
+        default:Date.now
     }
 })
+
 
 module.exports = mongoose.model('Product', productSchema)

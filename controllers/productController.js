@@ -15,3 +15,17 @@ exports.allProducts = asyncHandler(async(req, res)=>{
     })
 
 })
+
+exports.storeProducts = asyncHandler(async(req, res)=>{
+
+    const product = await Product.create(req.body)
+
+    if(!product){
+        res.status(500).json({ message: "Field Required" })
+    }
+
+    res.status(200).json({
+        sucess:true,
+        product
+    })
+})
