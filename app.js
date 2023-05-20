@@ -7,6 +7,9 @@ app.use(express.urlencoded({ extended:true }))
 const users = require('./routes/users')
 app.use("/api/v1", users)
 
+const products = require('./routes/products')
+app.use("/api/v1", products)
+
 app.get('/', (req, res)=>{
     const data = { message:"Express Server Running Successfully!"}
     res.status(200).json(data)
