@@ -72,7 +72,7 @@ exports.deleteUser = asyncHandler(async(req, res, next)=>{
     const users = await User.findByIdAndDelete(id)
 
     if(!users){
-        return next(ErrorHandler("Error cant erase user data", 500))
+        return next(new ErrorHandler("Error cant erase user data", 500))
     }
 
     res.status(200).json({
@@ -86,20 +86,20 @@ exports.userLogin = asyncHandler(async(req, res, next)=>{
     const { email, password } = req.body
 
     if(!email || !password){
-        return next(ErrorHandler("Email & Password Field Required", 400))
+        return next(new ErrorHandler("Email & Password Field Required", 400))
     }
 
     const user = await User.findOne({ email }).select("+password")
 
     if(!user){
-        return next(ErrorHandler("Enter a  valid email & password", 401))
+        return next(new ErrorHandler("Enter a  valid email & password", 401))
     }
 
     //validates if the password entered by the user is correct
     const isPassword = await user.comparePassword(password)
 
     if(!isPassword){
-        return next(ErrorHandler("Invalid Password", 401))
+        return next(new ErrorHandler("Invalid Password", 401))
     }
 
     sendToken(user, 200, res)

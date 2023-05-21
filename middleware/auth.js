@@ -2,18 +2,19 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const ErrorHandler = require('../utils/errorHandler')
 
-exports.authUser = async(req, res, next)=>{
+exports.userAuth = async(req, res, next)=>{
 
-    const token = req.cookies
+    const { token } = req.cookies
+    console.log(token)
 
     if(!token){
-        return next(ErrorHandler("Login First to Access this Resources", 401))
+        return next(new ErrorHandler("Login First to Access this Resources", 401))
     }
 
     const secret_key = process.env.JWT_SECRET
+    const decode = jwt.verify(token, secret_key)
 
-    const decoded = jwt.verify(token, secret_key)
+    req.user = await User.findById(decode.id)
 
-    req.user = await User.findById(decoded.id)
     next()
 }
