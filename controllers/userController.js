@@ -4,12 +4,12 @@ const asyncHandler = require('express-async-handler')
 const sendToken = require('../utils/jwtToken')
 const ErrorHandler = require('../utils/errorHandler')
 
-exports.allUsers = asyncHandler(async(req, res)=>{
+exports.allUsers = asyncHandler(async(req, res, next)=>{
 
     const users = await User.find()
 
     if(!users){
-        res.status(404).json({ message: "Error Users not Found"})
+       return next(ErrorHandler("Error Users not Found", 404))
     }
 
     res.status(200).json({
@@ -19,11 +19,11 @@ exports.allUsers = asyncHandler(async(req, res)=>{
 })
 
 
-exports.storeUsers = asyncHandler(async (req, res) => {
+exports.storeUsers = asyncHandler(async (req, res, next) => {
   const users = await User.create(req.body);
 
   if (!users) {
-    return res.status(500).json({ message: "Error Field Required" });
+    return next(ErrorHandler("Missing Field Required", 500))
   }
 
   sendToken(users, 200, res);
@@ -31,13 +31,13 @@ exports.storeUsers = asyncHandler(async (req, res) => {
 });
 
 
-exports.getOneUser = asyncHandler(async(req, res)=>{
+exports.getOneUser = asyncHandler(async(req, res, next)=>{
 
     const { id } = req.params
     const users = await User.findById(id)
 
     if(!users){
-        res.status(404).json({ message:"Data not Found"})
+        return next(ErrorHandler("Cant find User", 404))
     }
 
     res.status(200).json({
@@ -46,7 +46,7 @@ exports.getOneUser = asyncHandler(async(req, res)=>{
     })
 })
 
-exports.updateUsers = asyncHandler(async(req, res)=>{
+exports.updateUsers = asyncHandler(async(req, res, next)=>{
 
     const { id }  = req.params
     const { password }  = req.body
@@ -58,7 +58,7 @@ exports.updateUsers = asyncHandler(async(req, res)=>{
     const users = await User.findByIdAndUpdate(id, req.body)
 
     if(!users){
-        res.status(500).json({message:"Error cant update data"})
+       return next(ErrorHandler("Error cant update user data", 500))
     }
     res.status(200).json({
         sucess:true,
@@ -66,13 +66,13 @@ exports.updateUsers = asyncHandler(async(req, res)=>{
     })
 })
 
-exports.deleteUser = asyncHandler(async(req, res)=>{
+exports.deleteUser = asyncHandler(async(req, res, next)=>{
 
     const { id } = req.params
     const users = await User.findByIdAndDelete(id)
 
     if(!users){
-        res.status(500).json({ message:"Error cant remove the data"})
+        return next(ErrorHandler("Error cant erase user data", 500))
     }
 
     res.status(200).json({
