@@ -4,8 +4,9 @@ const router = express.Router()
 
 const { allUsers, storeUsers, getOneUser, updateUsers, deleteUser, userLogin, userLogout} = require('../controllers/userController')
 const { userAuth } = require('../middleware/auth')
+const { userRole } = require('../middleware/roles')
 
-router.get('/users', userAuth, allUsers)
+router.get('/users', userAuth, userRole('user'), allUsers)
 router.post('/users/store', storeUsers)
 router.get('/users/:id', getOneUser)
 router.put('/users/update/:id', updateUsers)

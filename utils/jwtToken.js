@@ -18,3 +18,4 @@ const sendToken = (users, statusCode, res)=>{
 }
 
 module.exports = sendToken
+

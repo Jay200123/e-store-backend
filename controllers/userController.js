@@ -9,7 +9,7 @@ exports.allUsers = asyncHandler(async(req, res, next)=>{
     const users = await User.find()
 
     if(!users){
-       return next(ErrorHandler("Error Users not Found", 404))
+       return next(new ErrorHandler("Error Users not Found", 404))
     }
 
     res.status(200).json({
@@ -23,7 +23,7 @@ exports.storeUsers = asyncHandler(async (req, res, next) => {
   const users = await User.create(req.body);
 
   if (!users) {
-    return next(ErrorHandler("Missing Field Required", 500))
+    return next(new ErrorHandler("Missing Field Required", 500))
   }
 
   sendToken(users, 200, res);
@@ -58,7 +58,7 @@ exports.updateUsers = asyncHandler(async(req, res, next)=>{
     const users = await User.findByIdAndUpdate(id, req.body)
 
     if(!users){
-       return next(ErrorHandler("Error cant update user data", 500))
+       return next(new ErrorHandler("Error cant update user data", 500))
     }
     res.status(200).json({
         sucess:true,
@@ -108,7 +108,7 @@ exports.userLogin = asyncHandler(async(req, res, next)=>{
 
 exports.userLogout = asyncHandler(async(req, res)=>{
 
-    res.cookie("token", null, {
+    res.cookie("token", null, {  //sets the token value to null to remove token from the client 
         expires: new Date(Date.now()),
         httpOnly:true
     })
