@@ -6,11 +6,11 @@ const { allUsers, storeUsers, getOneUser, updateUsers, deleteUser, userLogin, us
 const { userAuth } = require('../middleware/auth')
 const { userRole } = require('../middleware/roles')
 
-router.get('/users', userAuth, userRole('user'), allUsers)
+router.get('/users', userAuth, userRole('admin'), allUsers)
 router.post('/users/store', storeUsers)
-router.get('/users/:id', getOneUser)
-router.put('/users/update/:id', updateUsers)
-router.delete('/users/delete/:id', deleteUser)
+router.get('/users/:id', userAuth, getOneUser)
+router.put('/users/update/:id', userAuth, updateUsers)
+router.delete('/users/delete/:id', userAuth, userRole('admin'), deleteUser)
 
 // routes for login and logout
 router.post('/users/login', userLogin)
