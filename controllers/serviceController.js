@@ -31,4 +31,20 @@ exports.storeService = asyncHandler(async(req, res, next)=>{
         sucess:true,
         service
     })
+
+})
+
+exports.getOneService = asyncHandler(async(req, res, next)=>{
+
+    const { id } = req.params
+    
+    const service = await Service.findById(id)
+
+    if(!service){
+        return next(new ErrorHandler("Service Not Found", 404))
+    }
+    res.status(200).json({
+        sucess:true,
+        service
+    })
 })
