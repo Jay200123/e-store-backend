@@ -7,7 +7,7 @@ exports.userAuth = async(req, res, next)=>{
     const { token } = req.cookies
 
     if(!token){
-        return next(new ErrorHandler("Login First to Access this Resources", 401))
+        return next(new ErrorHandler("You Need to Login First to Access this Resources", 401))
     }
 
     const secret_key = process.env.JWT_SECRET
