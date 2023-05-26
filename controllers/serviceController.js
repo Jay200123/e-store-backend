@@ -48,3 +48,36 @@ exports.getOneService = asyncHandler(async(req, res, next)=>{
         service
     })
 })
+
+exports.updateService = asyncHandler(async(req, res, next)=>{
+
+    const { id } = req.params
+
+    const service = await Service.findByIdAndUpdate(id, req.body)
+
+    if(!service){
+        return next(new ErrorHandler("Error Can't Update Service", 500))
+    }
+
+    res.status(200).json({
+        sucess:true,
+        service
+    })
+})
+
+exports.deleteService = asyncHandler(async(req, res, next)=>{
+
+    const { id } = req.params
+
+    const service = await Service.findByIdAndDelete(id) 
+
+    if(!service){
+        return next(new ErrorHandler("Error can't Delete Service", 500))
+    }
+    
+    res.status(200).json({
+        sucess:true,
+        service
+    })
+})
+
