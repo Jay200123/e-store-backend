@@ -13,6 +13,9 @@ app.use("/api/v1", users)
 const products = require('./routes/products')
 app.use("/api/v1", products)
 
+const services = require('./routes/services')
+app.use("/api/v1", services)
+
 app.get('/', (req, res)=>{
     const data = { message:"Express Server Running Successfully!"}
     res.status(200).json(data)

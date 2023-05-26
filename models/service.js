@@ -24,11 +24,6 @@ const serviceSchema = mongoose.Schema({
         maxLength:[5, 'Service Cost must not exceed between 5 characters'],
 
         default:0.0
-    },
-
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'User'
     }
 })
 
