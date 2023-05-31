@@ -8,6 +8,10 @@
   
 }
 
+body, html{
+    background-color: aquamarine;
+}
+
 .container{
     text-align: center;
 }

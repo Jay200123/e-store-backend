@@ -32,8 +32,6 @@ exports.storeUsers = asyncHandler(async (req, res, next) => {
 
    email: users.email,
    subject: 'User Registration',
-   text: 'Thank you for registering. Your account has been successfully created.',
-
   })
 
   sendToken(users, 200, res);
