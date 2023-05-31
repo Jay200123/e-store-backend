@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
 const sendToken = require('../utils/jwtToken')
 const ErrorHandler = require('../utils/errorHandler')
+const sendEmail = require('../utils/sendMail')
 
 exports.allUsers = asyncHandler(async(req, res, next)=>{
 
@@ -20,11 +21,20 @@ exports.allUsers = asyncHandler(async(req, res, next)=>{
 
 
 exports.storeUsers = asyncHandler(async (req, res, next) => {
+
   const users = await User.create(req.body);
 
   if (!users) {
     return next(new ErrorHandler("Missing Field Required", 500))
   }
+
+   await sendEmail({
+
+   email: users.email,
+   subject: 'User Registration',
+   text: 'Thank you for registering. Your account has been successfully created.',
+
+  })
 
   sendToken(users, 200, res);
   
