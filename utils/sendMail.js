@@ -23,7 +23,7 @@ const sendEmail = async(options)=>{
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: options.email,
         subject: options.subject,
-        text: options.text || `Thank You For Registering to E-Store Web Application`,
+        text: options.text,
         html: body,
         attachments: [
             {

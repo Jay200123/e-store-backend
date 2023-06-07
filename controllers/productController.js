@@ -1,27 +1,27 @@
 const Product = require('../models/product')
 const asyncHandler = require('express-async-handler')
+const ErrorHandler = require('../utils/errorHandler')
 
-exports.allProducts = asyncHandler(async(req, res)=>{
+exports.allProducts = asyncHandler(async(req, res, next)=>{
 
     const product = await Product.find()
 
     if(!product){
-        res.status(404).json({ message:"Cant find any products"})
+        return next(new ErrorHandler('Error Products, not Found', 404))
     }
 
     res.status(200).json({
-        sucesss:true,
+        sucess:true,
         product
     })
-
 })
 
-exports.storeProducts = asyncHandler(async(req, res)=>{
+exports.storeProducts = asyncHandler(async(req, res, next)=>{
 
     const product = await Product.create(req.body)
 
     if(!product){
-        res.status(500).json({ message: "Field Required" })
+        return next(new ErrorHandler("Missing Field Required", 500))
     }
 
     res.status(200).json({
@@ -30,13 +30,14 @@ exports.storeProducts = asyncHandler(async(req, res)=>{
     })
 })
 
-exports.getOneProducts = asyncHandler(async(req, res)=>{
+exports.getOneProducts = asyncHandler(async(req, res, next)=>{
 
     const { id } = req.params
+
     const product = await Product.findById(id)
 
     if(!product){
-        res.status(404).json({ message: "Error cant find product"})
+        return next(new ErrorHandler("Error Product Not Found", 404))
     }
 
     res.status(200).json({
@@ -45,31 +46,33 @@ exports.getOneProducts = asyncHandler(async(req, res)=>{
     })
 })
 
-exports.updateProducts = asyncHandler(async(req, res)=>{
+exports.updateProducts = asyncHandler(async(req, res, next)=>{
 
     const { id } = req.params
 
     const product = await Product.findByIdAndUpdate(id, req.body)
 
     if(!product){
-        res.status(500).json({ message: "Error cant update product data"})
+        return next(new ErrorHandler("Error Missing Field Required", 500))
     }
+
     res.status(200).json({
         sucess:true,
         product
     })
+
 })
 
-exports.deleteProducts = asyncHandler(async(req, res)=>{
+exports.deleteProducts = asyncHandler(async(req, res, next)=>{
 
     const { id } = req.params
     
     const product = await Product.findByIdAndDelete(id)
 
     if(!product){
-
-        res.status(500).json({ message: "Error cant remove product"})
+        return next(new ErrorHandler("Error Product Cannot Remove", 500))
     }
+
     res.status(200).json({
         sucess:true,
         product
