@@ -16,6 +16,8 @@ const sendEmail = async(options)=>{
 
     const body = fs.readFileSync(path.join(__dirname, '../sendMail/message.html'))
 
+    const image = path.join(__dirname, '../images/success.jpg')
+
     const msg = {
 
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
@@ -23,6 +25,13 @@ const sendEmail = async(options)=>{
         subject: options.subject,
         text: options.text || `Thank You For Registering to E-Store Web Application`,
         html: body,
+        attachments: [
+            {
+                filename: 'success.jpg',
+                path: image,
+                cid: 'sucess-icon'
+            },
+        ]
     }
 
     await transport.sendMail(msg)
